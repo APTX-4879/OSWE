@@ -1,0 +1,23 @@
+'0e1234' == '0e4321'
+'0e1234' == '0'
+'0e1234' <= '1'
+'0xf' == '15' #0xf in hexadecimal notation is 15
+
+'000...000' == int(0)
+'0e0...000' == int(0)
+'1e0...000' == int(1)
+'abc...000' == int(0) # if a string starts with a non numerical character it will default to int(0)
+
+submited cookie
+aa6fw…34tj4343 = 0 
+stored cookie 
+ff6dj..w221.5885m = 0
+
+stored password
+e0rj238r
+submited password
+e0mfwewl
+
+strcmp(array( 0 => “”), “0a37bd1f669d8bb5eae47ef80013e4d3d8287c11”) will return 0.
+
+https://hydrasky.com/network-security/php-string-comparison-vulnerabilities/

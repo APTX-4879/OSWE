@@ -1,0 +1,6 @@
+node js deserialize
+generate payload with nodejsshell
+base64 encode
+-> change cookie
+-> listen -> shell sun
+privilege escalation: /home/sun/Documents/script.py -> run every 5 munite -> change to reverse shell python -> root

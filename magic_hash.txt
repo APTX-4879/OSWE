@@ -1,0 +1,10 @@
+https://www.whitehatsec.com/blog/magic-hashes/
+
+https://github.com/spaze/hashes
+
+php > if (1e235677564533 == 1e32847238947320) { echo "equal"; } else { echo "not equal"; } // 3 == 3
+equal
+php > if ("1e235677564533" == "1e32847238947320") { echo "equal"; } else { echo "not equal"; } // 3 == 3
+not equal
+php > if ("0e235677564533" == "0e32847238947320") { echo "equal"; } else { echo "not equal"; } // 3 == 3
+equal

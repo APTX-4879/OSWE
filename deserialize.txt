@@ -1,0 +1,101 @@
+PHP¶
+WhiteBox Review¶
+Check the use of unserialize() function and review how the external parameters are accepted. Use a safe, standard data interchange format such as JSON (via json_decode() and json_encode()) if you need to pass serialized data to the user.
+
+Python¶
+BlackBox Review¶
+If the traffic data contains the symbol dot . at the end, it's very likely that the data was sent in serialization.
+
+WhiteBox Review¶
+The following API in Python will be vulnerable to serialization attack. Search code for the pattern below.
+
+The uses of pickle/c_pickle/_pickle with load/loads:
+
+import pickle
+data = """ cos.system(S'dir')tR. """
+pickle.loads(data)
+Uses of PyYAML with load:
+
+import yaml
+document = "!!python/object/apply:os.system ['ipconfig']"
+print(yaml.load(document))
+Uses of jsonpickle with encode or store methods.
+Java¶
+The following techniques are all good for preventing attacks against deserialization against Java's Serializable format.
+
+Implementation advices:
+
+In your code, override the ObjectInputStream#resolveClass() method to prevent arbitrary classes from being deserialized. This safe behavior can be wrapped in a library like SerialKiller.
+Use a safe replacement for the generic readObject() method as seen here. Note that this addresses "billion laughs" type attacks by checking input length and number of objects deserialized.
+WhiteBox Review¶
+Be aware of the following Java API uses for potential serialization vulnerability.
+
+1. XMLdecoder with external user defined parameters
+
+2. XStream with fromXML method (xstream version <= v1.46 is vulnerable to the serialization issue)
+
+3. ObjectInputStream with readObject
+
+4. Uses of readObject, readObjectNodData, readResolve or readExternal
+
+5. ObjectInputStream.readUnshared
+
+6. Serializable
+
+BlackBox Review¶
+If the captured traffic data include the following patterns may suggest that the data was sent in Java serialization streams
+
+AC ED 00 05 in Hex
+rO0 in Base64
+Content-type header of an HTTP response set to application/x-java-serialized-object
+Chỉ báo rõ ràng nhất về dữ liệu tuần tự hóa Java là sự hiện diện của các tên lớp Java trong kết xuất, chẳng hạn như  'java.rmi.dgc.Lease' . Trong một số trường hợp, tên lớp Java có thể xuất hiện ở định dạng thay thế bắt đầu bằng chữ  'L' , kết thúc bằng dấu  ';' và sử dụng dấu gạch chéo về phía trước để phân tách các phần không gian tên và tên lớp (ví dụ:  'Ljava / rmi / dgc / VMID;' ). Cùng với tên lớp Java, có một số chuỗi phổ biến khác xuất hiện do đặc tả định dạng tuần tự hóa, chẳng hạn như  'sr' có thể đại diện cho một đối tượng (TC_OBJECT) theo sau là mô tả lớp của nó (TC_CLASSDESC) hoặc  'xp' có thể cho biết phần cuối của chú thích lớp (TC_ENDBLOCKDATA) cho một lớp không có siêu lớp (TC_NULL).
+-> xác định phần bù vào dữ liệu đó. Đích cần gọi  'ObjectInputStream.readObject' để giải mã hóa và khởi tạo một đối tượng (payload) và hỗ trợ lập trình hướng thuộc tính, Phương thức readObject sẽ đọc các loại nội dung sau từ một luồng tuần tự hóa:
+
+0x70 - TC_NULL
+0x71 - TC_REFERENCE
+0x72 - TC_CLASSDESC
+0x73 - TC_OBJECT
+0x74 - TC_STRING
+0x75 - TC_ARRAY
+0x76 - TC_CLASS
+0x7B - TC_EXCEPTION
+0x7C - TC_LONGSTRING
+0x7D - TC_PROXYCLASSDESC
+0x7E - TC_ENUM
+
+https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+﻿@page
+@model Reddnet.Web.Pages.IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<partial name="/Pages/Shared/_PostList.cshtml" model="Model.Feed" />
+
+<div class="sidebar flex col m-y-block-2">
+    <div class="box outline round p-a-1 m-y-block-2 flex col">
+        <h1 class="font big">
+            Communities
+        </h1>
+        @if (Model.Communities.Any())
+        {
+            @foreach (var Community in Model.Communities)
+            {
+                <a class="link" asp-page="@RouteConstants.CommunityView" asp-route-name="@Community.Name">
+                    @Community.Name
+                </a>
+            }
+        }
+        else
+        {
+            <p>
+                No communities found.
+            </p>
+        }
+        <a class="btn primary outline" asp-page="@RouteConstants.CommunityCreate">
+            Create Community
+        </a>
+    </div>
+    <partial name="/Pages/Shared/_About.cshtml" />
+</div>
